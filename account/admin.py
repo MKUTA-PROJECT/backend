@@ -81,7 +81,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name','roles', 'is_superuser', 'is_active', 'password1', 'password2'),
+            'fields': ('email', 'first_name','middle_name', 'last_name','roles', 'is_superuser', 'is_active', 'password1', 'password2'),
         }),
     )
     search_fields = ('email',)

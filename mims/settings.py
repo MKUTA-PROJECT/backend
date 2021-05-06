@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'activity',
     'staff',
     'account',
+    'mims',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',

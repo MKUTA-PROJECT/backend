@@ -21,5 +21,12 @@ urlpatterns = [
 
     #Include account urls
     path('login/', include('account.urls')),
+
+    #Include clubs urls
+    path('clubs/', include('club.urls')),
+
+    #Include members urls
+    path('members/', include('member.urls')),
+
     
 ]

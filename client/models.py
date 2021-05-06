@@ -5,7 +5,7 @@ class Client(models.Model):
     name = models.CharField(max_length=30, blank = False, verbose_name = "Name")
     sex= models.CharField(max_length=30, blank = False)
     tel = models.CharField(max_length=30, blank = False, null = True)
-    age = models.IntegerField(max_length = 3, blank = False, null = False)
+    age = models.IntegerField(blank = False, null = False)
     region = models.CharField(max_length=30, blank = False)
     district = models.CharField(max_length=30, blank = False)
     ward = models.CharField(max_length=30, blank = True)
@@ -17,3 +17,5 @@ class Client(models.Model):
     referal = models.BooleanField(default=None)
     refered_hospital = models.CharField(max_length=30, blank = True, null = True)
     treatment_status = models.BooleanField(default=None)
+    def _str_(self):
+        return self.name

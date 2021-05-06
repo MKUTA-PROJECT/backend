@@ -1,10 +1,11 @@
+from club.models import Club
 from django.db import models
 from account.models import CustomUser
 # Create your models here.
 class MemberProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, related_name="memberProfile")
     date_joined = models.DateTimeField(auto_now_add=True) 
-    club = models.CharField(max_length=50, blank = False, verbose_name = "Club")
+    club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, related_name="club")
 
     CHAIRMAN = 1
     ASS_CHAIR = 2
@@ -42,6 +43,6 @@ class MemberProfile(models.Model):
         (NOT_PAID, 'NOT PAID'),
     )
     fee_status = models.PositiveSmallIntegerField(choices=FEE_CHOICES, blank=True, null=True, default=2)
-    Tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
+    tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
     timestamp   = models.DateTimeField(null=True, blank=True, auto_now_add=False) # To control the fee status
 
