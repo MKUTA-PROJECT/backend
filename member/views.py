@@ -96,3 +96,73 @@ class MemberProfileUpdateView(APIView):
         profile = self.get_object(pk)
         profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+        '''            Members of All club Zone         '''
+class MemberView(APIView):
+    serializer_class = MemberSerializer
+    serializer_class = MemberProfileSerializer
+    permission_classes = [AllowAny]
+
+    # def post(self, request, *args, **kwargs):
+    #     serializer = self.serializer_class(data=request.data)
+    #     valid = serializer.is_valid(raise_exception=True)
+    #     if valid:
+    #         status_code = status.HTTP_201_CREATED
+    #         serializer.save()
+    #         return Response(serializer.data, status=status_code)
+
+    def get(self, request, format=None):
+        member = CustomUser.objects.filter(roles = 6)
+        member = MemberSerializer(member, many = True).data
+
+        memberprofile = MemberProfile.objects.filter(user__roles = 6)
+        memberprofile= MemberProfileSerializer(memberprofile, many = True).data
+
+        #Dont touch this area hahahaha!
+        new_dict = {}       # here convert one of list of dictionaries to dict
+        for index in member:
+           new_dict[index['id']]= index
+
+        # here combine with the other list of dict
+        combined = [dict(new_dict.get(d['user'], {}), **d) for d in memberprofile]    
+        
+        return Response(combined)
+   
+class MemberUpdateView(APIView):
+    serializer_class = MemberSerializer
+    serializer_class = MemberProfileSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):  # Query a member of a given Id
+        try:
+            return CustomUser.objects.filter(id = pk)
+        except CustomUser.DoesNotExist:
+            raise Http404
+
+    def get_objects(self, pk):  # Query the profile of a given member
+        try:
+            return MemberProfile.objects.filter(user_id = pk)
+        except MemberProfile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, *args, **kwargs):
+        member = self.get_object(self.kwargs.get('pk_member', ''))
+        member = MemberSerializer(member, many = True).data
+
+        memberprofile = self.get_objects(self.kwargs.get('pk_member', ''))
+        memberprofile= MemberProfileSerializer(memberprofile, many = True).data
+    
+        #Dont touch this area hahahaha!
+        new_dict = {}       # here convert one of list of dictionaries to dict
+        for index in member:
+           new_dict[index['id']]= index
+
+        # here combine with the other list of dict
+        combined = [dict(new_dict.get(d['user'], {}), **d) for d in memberprofile]    
+        
+        return Response(combined)
+
+
+
