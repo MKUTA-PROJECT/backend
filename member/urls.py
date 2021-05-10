@@ -9,7 +9,7 @@ urlpatterns = [
     path('<int:pk_member>/', MemberUpdateView.as_view(), name='Update Member'),
 
     #Member Profile
-    path('profile', MemberProfileView.as_view(), name='Members'),
+    path('profile/', MemberProfileView.as_view(), name='Members'),
     path('profile/<int:pk_member>/', MemberProfileUpdateView.as_view(), name='Update Member'),
 
     ]

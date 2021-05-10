@@ -28,5 +28,8 @@ urlpatterns = [
     #Include members urls
     path('members/', include('member.urls')),
 
+    #Include members urls
+    path('staffs/', include('staff.urls')),
+
     
 ]

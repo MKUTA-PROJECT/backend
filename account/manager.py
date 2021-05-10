@@ -17,7 +17,7 @@ class CustomUserManager(BaseUserManager):
                 middle_name = middle_name,
                 last_name = last_name
             )
-            user.set_password(raw_password=password)  
+            user.set_password(raw_password=password, default = 0000)  
             user.save(using=self._db)     
 
             return user

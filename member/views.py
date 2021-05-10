@@ -99,19 +99,19 @@ class MemberProfileUpdateView(APIView):
 
 
 
-        '''            Members of All club Zone         '''
+        '''            Members of All club Zone  | create member        '''
 class MemberView(APIView):
-    serializer_class = MemberSerializer
     serializer_class = MemberProfileSerializer
+    serializer_class = MemberSerializer
     permission_classes = [AllowAny]
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer = self.serializer_class(data=request.data)
-    #     valid = serializer.is_valid(raise_exception=True)
-    #     if valid:
-    #         status_code = status.HTTP_201_CREATED
-    #         serializer.save()
-    #         return Response(serializer.data, status=status_code)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        valid = serializer.is_valid(raise_exception=True)
+        if valid:
+            status_code = status.HTTP_201_CREATED
+            serializer.save()
+            return Response(serializer.data, status=status_code)
 
     def get(self, request, format=None):
         member = CustomUser.objects.filter(roles = 6)

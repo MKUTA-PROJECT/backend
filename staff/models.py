@@ -16,4 +16,4 @@ class StaffProfile(models.Model):
     )
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=2)
 
-    Tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
+    tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")

@@ -5,7 +5,7 @@ from account.models import CustomUser
 class MemberProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, related_name="memberProfile")
     date_joined = models.DateTimeField(auto_now_add=True) 
-    club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, related_name="club")
+    club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank= False, related_name="club")
 
     CHAIRMAN = 1
     ASS_CHAIR = 2
