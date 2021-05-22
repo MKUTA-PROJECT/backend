@@ -82,7 +82,7 @@ class ClubView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, format=None):
-        club = Club.objects.all()
+        club = Club.objects.all().order_by('name')
         serializer = ClubSerializer(club, many=True)
         return Response(serializer.data)
    

@@ -23,26 +23,8 @@ class MemberProfile(models.Model):
         (MEMBER, 'MEMBER'),  
     )
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True, default=6)
-
-    ACTIVE = 1
-    DOMANT = 2
-    DEAD = 3
-    
-    STATUS_CHOICES = (
-        (ACTIVE, 'ACTIVE'),
-        (DOMANT, 'DOMANT'),
-        (DEAD, 'DEAD'),
-    )
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=2)
-
-    PAID = 1
-    NOT_PAID = 2
-    
-    FEE_CHOICES = (
-        (PAID, 'PAID'),
-        (NOT_PAID, 'NOT PAID'),
-    )
-    fee_status = models.PositiveSmallIntegerField(choices=FEE_CHOICES, blank=True, null=True, default=2)
+    status = models.CharField(max_length=31, blank = False, verbose_name = "status", default = "Domant")
+    fee_status = models.CharField(max_length=31, blank = False, verbose_name = "fee status", default = "Not Paid")
     tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
     timestamp   = models.DateTimeField(null=True, blank=True, auto_now_add=False) # To control the fee status
 
