@@ -131,8 +131,9 @@ class MemberView(APIView):
         return Response(combined)
    
 class MemberUpdateView(APIView):
-    serializer_class = MemberSerializer
     serializer_class = MemberProfileSerializer
+    serializer_class = MemberSerializer
+    
     permission_classes = [AllowAny]
 
     def get_object(self, pk):  # Query a member of a given Id
@@ -146,6 +147,22 @@ class MemberUpdateView(APIView):
             return MemberProfile.objects.filter(user_id = pk)
         except MemberProfile.DoesNotExist:
             raise Http404
+        # I had to add this in order to allow the put to operate, it query by Id
+    def get_object_put(self, pk):
+        try:
+            return CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
+            raise Http404
+
+    def put(self, request, *args, **kwargs):
+        member_key = self.get_object_put(self.kwargs.get('pk_member', ''))
+        serializer = self.serializer_class(member_key, data=request.data)
+        valid = serializer.is_valid(raise_exception=True)
+
+        if valid:
+            status_code = status.HTTP_201_CREATED
+            serializer.save()
+            return Response(serializer.data, status=status_code)
 
     def get(self, request, *args, **kwargs):
         member = self.get_object(self.kwargs.get('pk_member', ''))
@@ -163,6 +180,7 @@ class MemberUpdateView(APIView):
         combined = [dict(new_dict.get(d['user'], {}), **d) for d in memberprofile]    
         
         return Response(combined)
+    
 
 
 
