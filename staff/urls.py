@@ -10,6 +10,6 @@ urlpatterns = [
 
     #staff Profile
     path('profile/', StaffProfileView.as_view(), name='staffs profile'),
-    path('profile/<int:pk_staff>/', StaffProfileUpdateView.as_view(), name='Update staff'),
+    path('profile/<int:pk_staff>/', StaffProfileUpdateView.as_view(), name='Update staff profile'),
 
     ]

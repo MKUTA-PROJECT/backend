@@ -12,4 +12,16 @@ class StaffProfileSerializer(serializers.ModelSerializer):
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','roles',]
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','roles', "password"]
+
+    def create(self, validated_data):
+        if "password" in validated_data:
+            from django.contrib.auth.hashers import make_password
+            validated_data["password"] = make_password(validated_data["password"])
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if "password" in validated_data:
+            from django.contrib.auth.hashers import make_password
+            validated_data["password"] = make_password(validated_data["password"])
+        return super().update(instance, validated_data)

@@ -10,12 +10,7 @@ class Client(models.Model):
     district = models.CharField(max_length=30, blank = False)
     ward = models.CharField(max_length=30, blank = True)
     street = models.CharField(max_length=30, blank = True)
-    agreed_screening = models.BooleanField(default=None)
     tb_suspect = models.BooleanField(default=None)
-    sputum_collection = models.BooleanField(default=None)
     tb_status = models.BooleanField(default=None)
-    referal = models.BooleanField(default=None)
-    refered_hospital = models.CharField(max_length=30, blank = True, null = True)
-    treatment_status = models.BooleanField(default=None)
     def _str_(self):
         return self.name

@@ -42,8 +42,8 @@ class StaffView(APIView):
        return Response(combined)
    
 class StaffUpdateView(APIView):
-    serializer_class =StaffSerializer
     serializer_class =StaffProfileSerializer
+    serializer_class =StaffSerializer
     permission_classes = [AllowAny]
 
     def get_object(self, pk):  # Query a staff of a given Id
@@ -57,6 +57,22 @@ class StaffUpdateView(APIView):
             return StaffProfile.objects.filter(user_id = pk)
         except StaffProfile.DoesNotExist:
             raise Http404
+        # I had to add this in order to allow the put to operate, it query by Id
+    def get_object_put(self, pk):
+        try:
+            return CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
+            raise Http404
+
+    def put(self, request, *args, **kwargs):
+        staff_key = self.get_object_put(self.kwargs.get('pk_staff', ''))
+        serializer = self.serializer_class(staff_key, data=request.data)
+        valid = serializer.is_valid(raise_exception=True)
+
+        if valid:
+            status_code = status.HTTP_201_CREATED
+            serializer.save()
+            return Response(serializer.data, status=status_code)
 
     def get(self, request, *args, **kwargs):
        staff = self.get_object(self.kwargs.get('pk_staff', ''))
