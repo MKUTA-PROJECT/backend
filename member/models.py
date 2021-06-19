@@ -27,4 +27,6 @@ class MemberProfile(models.Model):
     fee_status = models.CharField(max_length=31, blank = False, verbose_name = "fee status", default = "Not Paid")
     tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
     timestamp   = models.DateTimeField(null=True, blank=True, auto_now_add=False) # To control the fee status
+    def _str_(self):
+        return self.user
 

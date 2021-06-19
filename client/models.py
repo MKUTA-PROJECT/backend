@@ -1,7 +1,9 @@
 from django.db import models
+from activity.models import Activity
 
 # Create your models here.
 class Client(models.Model):
+    activity = models.ForeignKey(Activity, on_delete = models.CASCADE, null = True)
     name = models.CharField(max_length=30, blank = False, verbose_name = "Name")
     sex= models.CharField(max_length=30, blank = False)
     tel = models.CharField(max_length=30, blank = False, null = True)

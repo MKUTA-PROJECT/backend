@@ -28,8 +28,11 @@ urlpatterns = [
     #Include members urls
     path('members/', include('member.urls')),
 
-    #Include members urls
+    #Include staff urls
     path('staffs/', include('staff.urls')),
+
+    #Include Client urls
+    path('clients/', include('client.urls')),
 
     
 ]
