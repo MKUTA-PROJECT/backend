@@ -27,7 +27,7 @@ SECRET_KEY = '$&s5(vrx#^)huviqqok_@=+(z_99%4n(-vsipg24(*%lhyl**$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mkuta.herokuapp.com']
+ALLOWED_HOSTS = ['mkuta.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
