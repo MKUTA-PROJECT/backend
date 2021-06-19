@@ -1,1 +1,1 @@
-web: gunicorn aphta.wsgi --log-file -
+web: gunicorn mims.wsgi --log-file -
