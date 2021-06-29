@@ -65,7 +65,7 @@ class StaffUpdateView(APIView):
             raise Http404
 
     def put(self, request, *args, **kwargs):
-        staff_key = self.get_object_put(self.kwargs.get('pk_staff', ''))
+        staff_key = self.get_object_put(self.kwargs.get('pk_stnaff', ''))
         serializer = self.serializer_class(staff_key, data=request.data)
         valid = serializer.is_valid(raise_exception=True)
 

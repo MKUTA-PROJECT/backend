@@ -20,7 +20,7 @@ class ClientView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, format=None):
-        client = Client.objects.all().order_by('name')
+        client = Client.objects.all()
         serializer = ClientSerializer(client, many=True)
         return Response(serializer.data)
    
