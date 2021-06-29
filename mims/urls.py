@@ -25,6 +25,9 @@ urlpatterns = [
     #Include account urls
     path('login/', include('account.urls')),
 
+    #Include Tb Info urls
+    path('activity/', include('activity.urls')),
+
     #Include clubs urls
     path('clubs/', include('club.urls')),
 

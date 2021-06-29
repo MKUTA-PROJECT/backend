@@ -53,3 +53,17 @@ class TbInfoUpdateView(APIView):
         info = self.get_object(pk)
         info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TbInfoID(APIView):
+    serializer_class = TbInfoSerializer
+    permission_classes = [AllowAny]
+    def get_object(self, pk, pk2):
+        try:
+            return TbInfo.objects.all().filter(date__range=(pk, pk2))
+        except TbInfo.DoesNotExist:
+            raise Http404  
+
+    def get(self, request, *args, **kwargs):
+        info = self.get_object(self.kwargs.get('pk_start', ''), self.kwargs.get('pk_end', ''))
+        serializer = TbInfoSerializer(info, many=True)
+        return Response(serializer.data)
