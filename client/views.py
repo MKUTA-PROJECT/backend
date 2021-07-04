@@ -53,3 +53,18 @@ class ClientUpdateView(APIView):
         Client = self.get_object(pk)
         Client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ClientFilterView(APIView):
+    serializer_class = ClientSerializer
+    permission_classes = [AllowAny]
+    def get_object(self, pk, pk2):
+        try:
+            return Client.objects.all().filter(date__range=(pk, pk2))
+        except Client.DoesNotExist:
+            raise Http404  
+
+    def get(self, request, *args, **kwargs):
+        info = self.get_object(self.kwargs.get('pk_start', ''), self.kwargs.get('pk_end', ''))
+        serializer = ClientSerializer(info, many=True)
+        return Response(serializer.data)

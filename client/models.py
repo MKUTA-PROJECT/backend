@@ -16,5 +16,6 @@ class Client(models.Model):
     street = models.CharField(max_length=30, blank = True)
     tb_suspect = models.BooleanField(default=None)
     tb_status = models.BooleanField(default=None)
+    date = models.DateField(blank = False, editable=True)
     def _str_(self):
         return self.name
