@@ -29,13 +29,9 @@ class UserLoginView(APIView):
                 'message': 'User logged in successfully',
                 'access': serializer.data['access'],
                 'refresh': serializer.data['refresh'],
-                'authenticatedUser': {
-                    'email': serializer.data['email'],
-                    'role': serializer.data['role'],
-                    'name' : serializer.data['name'],
-                    'id': serializer.data['id']
-                    
-                }
+                'email': serializer.data['email'],
+                'role': serializer.data['role'],
+                'name' : serializer.data['name'],         
             }
 
             return Response(response, status=status_code)
