@@ -31,7 +31,8 @@ class UserLoginView(APIView):
                 'refresh': serializer.data['refresh'],
                 'email': serializer.data['email'],
                 'role': serializer.data['role'],
-                'name' : serializer.data['name'],         
+                'name' : serializer.data['name'], 
+                'id': serializer.data['id']        
             }
 
             return Response(response, status=status_code)

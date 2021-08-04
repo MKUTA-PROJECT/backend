@@ -6,12 +6,14 @@ from account.models import CustomUser
 
 
 class UserLoginSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only= True)
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128, write_only=True)
     access = serializers.CharField(read_only=True)
     refresh = serializers.CharField(read_only=True)
     role = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True)
+    
 
 
     def create(self, validated_date):
@@ -40,7 +42,8 @@ class UserLoginSerializer(serializers.Serializer):
                 'refresh': refresh_token,
                 'email': user.email,
                 'role': user.roles,
-                'name': user.get_full_name()
+                'name': user.get_full_name(),
+                'id': user.id
             }
 
             return validation
