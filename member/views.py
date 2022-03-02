@@ -46,6 +46,43 @@ class ClubMemberView(APIView):
         combined = [dict(new_dict.get(d['user'], {}), **d) for d in memberprofile]    
         
         return Response(combined)
+
+'''            Members of specific Project         '''
+class ProjectMemberView(APIView):
+    serializer_class = MemberSerializer
+    serializer_class = MemberProfileSerializer
+    
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):  # Query a member of a given club id
+        try:
+            return CustomUser.objects.filter(memberProfile__project = pk)
+        except CustomUser.DoesNotExist:
+            raise Http404
+
+    def get_objects(self, pk):  # Query the profile of a given member
+        try:
+            return MemberProfile.objects.filter(project = pk)
+        except MemberProfile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, *args, **kwargs):
+        serializer = {}
+        member = self.get_object(self.kwargs.get('pk_project', ''))
+        member = MemberSerializer(member, many = True).data
+
+        memberprofile = self.get_objects(self.kwargs.get('pk_project', ''))
+        memberprofile= MemberProfileSerializer(memberprofile, many = True).data
+    
+        #Dont touch this area hahahaha!
+        new_dict = {}       # here convert one of list of dictionaries to dict
+        for index in member:
+           new_dict[index['id']]= index
+
+        # here combine with the other list of dict
+        combined = [dict(new_dict.get(d['user'], {}), **d) for d in memberprofile]    
+        
+        return Response(combined)
    
 
 

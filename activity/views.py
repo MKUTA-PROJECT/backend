@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
+from account.models import CustomUser
 from activity.serializer import *
 from django.http import Http404
 from rest_framework.response import Response
@@ -53,3 +54,5 @@ class ActivityUpdateView(APIView):
         activity = self.get_object(pk)
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+

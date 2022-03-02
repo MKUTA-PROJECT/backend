@@ -1,3 +1,4 @@
+from activity.models import Activity
 from club.models import Club
 from django.db import models
 from account.models import CustomUser
@@ -27,6 +28,7 @@ class MemberProfile(models.Model):
     fee_status = models.CharField(max_length=31, blank = False, verbose_name = "fee status", default = "Not Paid")
     tel = models.CharField(max_length=31, blank = False, verbose_name = "Phone Number")
     timestamp   = models.DateTimeField(null=True, blank=True, auto_now_add=False) # To control the fee status
+    project = models.ManyToManyField(Activity, related_name='profiles', blank=True, null=True)
     def _str_(self):
         return self.user
 
