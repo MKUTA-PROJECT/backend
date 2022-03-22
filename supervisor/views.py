@@ -2,39 +2,38 @@ from rest_framework.exceptions import NotAuthenticated
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from staff.serializer import *
+from supervisor.serializer import *
 from django.http import Http404
 from rest_framework.response import Response
-from staff.models import *
-from account.models import CustomUser
+from supervisor.models import *
+# Create your views here.
 
-
-'''             Staff Zone       '''
+'''             Supervisor Zone       '''
 # Retrieve all supervisors that are already registered and exist in the system
 
-class StaffView(APIView):
-    serializer_class = StaffSerializer
+class SupervisorView(APIView):
+    serializer_class = SupervisorSerializer
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        agency = Staff.objects.all()
-        serializer = StaffSerializer(agency, many=True)
+        supervisor = Supervisor.objects.all()
+        serializer = SupervisorSerializer(supervisor, many=True)
         return Response(serializer.data)
 
 
-class StaffUpdateView(APIView):
-    serializer_class = StaffSerializer
+class SupervisorUpdateView(APIView):
+    serializer_class = SupervisorSerializer
     permission_classes = [AllowAny]
 
     def get_object(self, pk):
         try:
-            return Staff.objects.get(pk=pk)
-        except Staff.DoesNotExist:
+            return Supervisor.objects.get(pk=pk)
+        except Supervisor.DoesNotExist:
             raise Http404
 
     def put(self, request, *args, **kwargs):
-        agency_key = self.get_object(self.kwargs.get('pk_staff', ''))
-        serializer = self.serializer_class(agency_key, data=request.data)
+        supervisor_key = self.get_object(self.kwargs.get('pk_supervisor', ''))
+        serializer = self.serializer_class(supervisor_key, data=request.data)
         valid = serializer.is_valid(raise_exception=True)
 
         if valid:
@@ -43,20 +42,20 @@ class StaffUpdateView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, *args, **kwargs):
-        agency = self.get_object(self.kwargs.get('pk_staff', ''))
-        serializer = StaffSerializer(agency)
+        supervisor = self.get_object(self.kwargs.get('pk_supervisor', ''))
+        serializer = SupervisorSerializer(supervisor)
         return Response(serializer.data)
 
     def delete(self, request, pk, format=None):
-        agency = self.get_object(pk)
-        agency.delete()
+        supervisor = self.get_object(pk)
+        supervisor.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-'''            Create, View, Update Staff Profile        '''
+'''            Create, View, Update supervisor Profile        '''
 
-class StaffProfileView(APIView):
-    serializer_class = StaffProfileSerializer
+class SupervisorProfileView(APIView):
+    serializer_class = SupervisorProfileSerializer
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -69,13 +68,13 @@ class StaffProfileView(APIView):
 
     def get_object(self, pk):
         try:
-            return StaffProfile.objects.get(user=pk)
-        except StaffProfile.DoesNotExist:
+            return SupervisorProfile.objects.get(user=pk)
+        except SupervisorProfile.DoesNotExist:
             raise Http404
 
     def put(self, request, *args, **kwargs):
-        agency_key = self.get_object(self.kwargs.get('pk_staff', ''))
-        serializer = self.serializer_class(agency_key, data=request.data)
+        supervisor_key = self.get_object(self.kwargs.get('pk_supervisor', ''))
+        serializer = self.serializer_class(supervisor_key, data=request.data)
         valid = serializer.is_valid(raise_exception=True)
 
         if valid:
@@ -84,11 +83,11 @@ class StaffProfileView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, *args, **kwargs):
-        agency = self.get_object(self.kwargs.get('pk_staff', ''))
-        serializer = StaffProfileSerializer(agency)
+        supervisor = self.get_object(self.kwargs.get('pk_supervisor', ''))
+        serializer = SupervisorProfileSerializer(supervisor)
         return Response(serializer.data)
 
     def delete(self, request, pk, format=None):
-        agency = self.get_object(pk)
-        agency.delete()
+        supervisor = self.get_object(pk)
+        supervisor.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

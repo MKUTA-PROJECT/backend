@@ -5,6 +5,8 @@ from club.serializer import *
 from django.http import Http404
 from rest_framework.response import Response
 from club.models import *
+from member.models import Member
+from member.serializer import MemberSerializer
 
 '''            Supevisor Zone         '''
 class SupervisorView(APIView):
@@ -115,3 +117,20 @@ class ClubUpdateView(APIView):
         club = self.get_object(pk)
         club.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+'''            Members of specific club Zone         '''
+class ClubMemberView(APIView):
+    serializer_class = MemberSerializer  
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):  # Query a member of a given club id
+        try:
+            return Member.objects.filter(memberProfile__club_id = pk)
+        except Member.DoesNotExist:
+            raise Http404
+
+    def get(self, request, *args, **kwargs):
+        member = self.get_object(self.kwargs.get('pk_club', ''))
+        member = MemberSerializer(member, many = True).data        
+        return Response(member,200)

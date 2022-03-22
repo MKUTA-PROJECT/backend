@@ -1,7 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
 from club.views import *
-from member.views import ClubMemberView
 
 urlpatterns = [
     #club 

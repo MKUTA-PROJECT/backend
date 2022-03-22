@@ -7,9 +7,8 @@ urlpatterns = [
     #Member
     path('', MemberView.as_view(), name='Members'),
     path('<int:pk_member>/', MemberUpdateView.as_view(), name='Update Member'),
-
+    
     #Member Profile
-    path('profile/', MemberProfileView.as_view(), name='Members'),
-    path('profile/<int:pk_member>/', MemberProfileUpdateView.as_view(), name='Update Member'),
+    path('<int:pk_member>/profile/', MemberProfileView.as_view(), name='Members'),
 
     ]

@@ -41,15 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'club',
     'member',
-    'client',
-    'activity',
+    'project',
     'staff',
     'account',
     'mims',
+    'lookup',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'tbinfo',
+    'supervisor'
 
 ]
 
@@ -85,20 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mims.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# mysql setting
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'mims',
-#         'USER': 'root',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
 
 # Postgres setting
 DATABASES = {
@@ -145,8 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
@@ -159,7 +145,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 AUTH_USER_MODEL = 'account.CustomUser'
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REST framework settings
 REST_FRAMEWORK = {
@@ -174,7 +160,8 @@ REST_FRAMEWORK = {
 }
 
 # Configure the cors headers permissions
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+# If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ORIGIN_WHITELIST = [
 #     'http://localhost:3030',
@@ -182,7 +169,6 @@ CORS_ALLOW_CREDENTIALS = True
 # CORS_ORIGIN_REGEX_WHITELIST = [
 #     'http://localhost:3030',
 # ]
-
 
 
 # Configure the Simple JWT settings

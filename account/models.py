@@ -1,34 +1,43 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
+from django.core.validators import RegexValidator
 # Create your models here.
 
 from account.manager import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    MNE_MANAGER = 1
-    STAFF_USER = 2
-    ZONAL_CORDINATOR = 3
-    CHAIRPERSON = 4
-    CLUB_LEADER = 5
-    MEMBER = 6
-    ADMIN = 7
-    
+    STAFF = 1
+    SUPERVISOR = 2
+    MEMBER = 3
+    ADMIN = 4
+
+    # Sex choices
+    MALE = 1
+    FEMALE = 2
+
     ROLE_CHOICES = (
-        (MNE_MANAGER, 'MNE MANAGER'),
-        (STAFF_USER, 'STAFF USER'),
-        (ZONAL_CORDINATOR, 'ZONAL CORDINATOR'),
-        (CHAIRPERSON, 'CHAIRPERSON'),
-        (CLUB_LEADER, 'CLUB LEADER'),
+        (STAFF, 'STAFF USER'),
+        (SUPERVISOR, 'SUPERVISOR'),
         (MEMBER, 'MEMBER'),
         (ADMIN, 'ADMIN'),    
     )
-
-    roles = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True, default=6)
+    SEX_CHOICES = (
+        (MALE, 'MALE'),
+        (FEMALE, 'FEMALE'),
+    )
     email = models.EmailField(max_length = 40, verbose_name = 'Email Address', unique = True)
     first_name =  models.CharField(max_length=30, blank=True, verbose_name = 'First Name')
     middle_name = models.CharField(max_length=30, blank=True, verbose_name = 'Middle Name')
     last_name =  models.CharField(max_length=30, blank=True, verbose_name = 'Last Name')
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,14}$', message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
+    phone = models.CharField(
+        validators=[phone_regex], max_length=17, unique=True, blank=True, null=True)
+    roles = models.PositiveSmallIntegerField(
+        choices=ROLE_CHOICES, blank=True, null=True, default=1)
+    sex = models.PositiveSmallIntegerField(
+        choices=SEX_CHOICES, blank=True, null=True, default=1)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -38,7 +47,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
     
-    REQUIRED_FIELDS = ['first_name','middle_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name','middle_name', 'last_name','sex','phone','roles']
     
     USERNAME_FIELD = 'email'
 

@@ -23,10 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #Include account urls
-    path('login/', include('account.urls')),
+    path('auth/', include('account.urls')),
 
     #Include Tb Info urls
-    path('projects/', include('activity.urls')),
+    path('projects/', include('project.urls')),
 
     #Include clubs urls
     path('clubs/', include('club.urls')),
@@ -37,11 +37,11 @@ urlpatterns = [
     #Include staff urls
     path('staffs/', include('staff.urls')),
 
-    #Include Client urls
-    path('clients/', include('client.urls')),
+    #Include supervisor urls
+    path('supervisor/', include('supervisor.urls')),
 
-    #Include Tb Info urls
-    path('info/', include('tbinfo.urls')),
+
+
 
     
 ]

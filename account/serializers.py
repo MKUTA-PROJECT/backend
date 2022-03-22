@@ -49,3 +49,36 @@ class UserLoginSerializer(serializers.Serializer):
             return validation
         except user.DoesNotExist:
             raise serializers.ValidationError("Invalid login credentials ")
+
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=68, min_length=6, write_only=True)
+
+    default_error_messages = {
+        'first_name': 'The First Name should only contain alphanumeric characters',
+        'last_name': 'The Last Name should only contain alphanumeric characters'
+        }
+
+    class Meta:
+        model = CustomUser
+        fields = ['email','phone', 'roles', 'password', 'first_name', 'last_name','middle_name','sex']
+
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+        first_name = attrs.get('first_name', '')
+        last_name = attrs.get('last_name', '')
+        roles = attrs.get('roles', '')
+
+       
+        if not first_name.isalnum():
+            raise serializers.ValidationError(
+                self.default_error_messages['first_name'])
+        if not last_name.isalnum():
+            raise serializers.ValidationError(
+                self.default_error_messages['last_name'])
+        return attrs
+
+    def create(self, validated_data):
+        return CustomUser.objects.create_user(**validated_data)

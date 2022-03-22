@@ -1,23 +1,18 @@
 from rest_framework import serializers
-from member.models import *
-from account.models import CustomUser
 
-class MemberProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MemberProfile
-        fields = "__all__"
+from supervisor.models import *
 
-class MemberContributionSerializer(serializers.ModelSerializer):
+class SupervisorProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MemberContribution
+        model = SupervisorProfile
         fields = "__all__"
 
 
-# get a few fields from the user model and use them to display the club members
-class MemberSerializer(serializers.ModelSerializer):
+# Get a few fields from the user model and use them to display the supervisor
+class SupervisorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','password']
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','roles',]
 
     def create(self, validated_data):
         if "password" in validated_data:
