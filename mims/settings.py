@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
+    'corsheaders',
+
+    # local
     'club',
     'member',
     'project',
@@ -46,10 +52,7 @@ INSTALLED_APPS = [
     'account',
     'mims',
     'lookup',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
-    'supervisor'
+    'supervisor',
 
 ]
 

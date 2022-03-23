@@ -1,5 +1,7 @@
 from django.db import models
 
+from lookup.models import ZoneLookup
+
 
 
 # Create your models here.
@@ -11,3 +13,8 @@ class Project(models.Model):
     
     def _str_(self):
         return self.name
+
+
+class ZonalProject(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    zone = models.ForeignKey(ZoneLookup, on_delete=models.SET_NULL, null=True)

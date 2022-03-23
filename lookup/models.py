@@ -1,7 +1,12 @@
 from django.db import models
 
 # Create your models here.
+class ZoneLookup(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=200, name='this will include the names of the regions in this zone')
 
+    def __str__(self):
+        return self.name
 
 class LocationLookup(models.Model):
     zone = models.CharField(max_length=100)
@@ -28,3 +33,13 @@ class HealthFacilityLookup(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProjectLevelLookup(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+
