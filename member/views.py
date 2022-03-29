@@ -84,6 +84,6 @@ class MemberUpdateView(APIView):
 
     def get(self, request, *args, **kwargs):
         member = self.get_object(self.kwargs.get('pk_member', ''))
-        member = MemberSerializer(member, many=True).data
+        member = MemberSerializer(member).data
 
         return Response(member)

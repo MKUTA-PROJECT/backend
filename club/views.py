@@ -56,7 +56,7 @@ class SupervisorUpdateView(APIView):
 
 '''            ClubSupervisor Zone           '''
 class ClubSupervisorView(APIView):
-    serializer_class = ClubSerializer
+    serializer_class = SupervisorSerializer
     permission_classes = [AllowAny]
 
     def get_object(self, pk):

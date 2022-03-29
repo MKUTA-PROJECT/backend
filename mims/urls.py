@@ -63,6 +63,9 @@ urlpatterns = [
     #Include supervisor urls
     path('supervisor/', include('supervisor.urls')),
 
+    #Include lookup urls
+    path('lookup/', include('lookup.urls')),
+
 
 
 

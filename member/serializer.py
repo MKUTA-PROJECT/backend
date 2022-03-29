@@ -3,6 +3,8 @@ from member.models import *
 from account.models import CustomUser
 
 class MemberProfileSerializer(serializers.ModelSerializer):
+    club= serializers.ReadOnlyField(source='club.get_name')
+    role= serializers.ReadOnlyField(source='role.get_name')
     class Meta:
         model = MemberProfile
         fields = "__all__"
@@ -17,7 +19,7 @@ class MemberContributionSerializer(serializers.ModelSerializer):
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','password']
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','sex','date_joined', 'phone']
 
     def create(self, validated_data):
         if "password" in validated_data:

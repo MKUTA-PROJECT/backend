@@ -26,6 +26,15 @@ class StaffRoleLookup(models.Model):
     def __str__(self):
         return self.name
 
+class MemberRoleLookup(models.Model):
+    name = models.CharField(
+        max_length=50, blank=False, verbose_name="Position")
+
+    def __str__(self):
+        return self.name
+    def get_name(self):
+        return self.name
+
 
 class HealthFacilityLookup(models.Model):
     name = models.CharField(max_length=100)
