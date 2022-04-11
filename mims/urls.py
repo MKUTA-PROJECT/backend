@@ -66,6 +66,9 @@ urlpatterns = [
     #Include lookup urls
     path('lookup/', include('lookup.urls')),
 
+    #Include dashboard urls
+    path('dashboard/', include('dashboard.urls')),
+
 
 
 

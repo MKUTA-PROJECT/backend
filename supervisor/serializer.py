@@ -12,7 +12,7 @@ class SupervisorProfileSerializer(serializers.ModelSerializer):
 class SupervisorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','roles',]
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','phone',]
 
     def create(self, validated_data):
         if "password" in validated_data:

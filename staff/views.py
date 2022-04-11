@@ -32,6 +32,12 @@ class StaffUpdateView(APIView):
         except Staff.DoesNotExist:
             raise Http404
 
+    def get_objects(self, pk):
+        try:
+            return StaffProfile.objects.get(user=pk)
+        except StaffProfile.DoesNotExist:
+            raise Http404
+
     def put(self, request, *args, **kwargs):
         agency_key = self.get_object(self.kwargs.get('pk_staff', ''))
         serializer = self.serializer_class(agency_key, data=request.data)
@@ -43,14 +49,19 @@ class StaffUpdateView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, *args, **kwargs):
-        agency = self.get_object(self.kwargs.get('pk_staff', ''))
-        serializer = StaffSerializer(agency)
-        return Response(serializer.data)
+        staff = self.get_object(self.kwargs.get('pk_staff', ''))
+        staff = StaffSerializer(staff).data
 
-    def delete(self, request, pk, format=None):
-        agency = self.get_object(pk)
-        agency.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        staffprofile = self.get_objects(self.kwargs.get('pk_staff', ''))
+        staffprofile = StaffProfileSerializer(staffprofile).data
+        staffprofile.pop('id')
+        serializer = {}
+
+        serializer.update(staff)
+        serializer.update(staffprofile)
+
+        return Response(serializer)
+
 
 
 '''            Create, View, Update Staff Profile        '''
@@ -66,6 +77,12 @@ class StaffProfileView(APIView):
             status_code = status.HTTP_201_CREATED
             serializer.save()
             return Response(serializer.data, status=status_code)
+
+    def get_object(self, pk):
+        try:
+            return StaffProfile.objects.get(user=pk)
+        except StaffProfile.DoesNotExist:
+            raise Http404
 
     def get_object(self, pk):
         try:

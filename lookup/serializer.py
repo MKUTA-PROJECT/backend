@@ -7,7 +7,12 @@ class MemberRoleLookupSerializer(serializers.ModelSerializer):
         model = MemberRoleLookup
         fields = "__all__"
 
-# class ClubSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Club
-#         fields = "__all__"
+class StaffRoleLookupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StaffRoleLookup
+        fields = "__all__"
+
+class LocationLookupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationLookup
+        fields = "__all__"

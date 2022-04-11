@@ -3,8 +3,8 @@ from member.models import *
 from account.models import CustomUser
 
 class MemberProfileSerializer(serializers.ModelSerializer):
-    club= serializers.ReadOnlyField(source='club.get_name')
-    role= serializers.ReadOnlyField(source='role.get_name')
+    club_name= serializers.ReadOnlyField(source='club.get_name')
+    role_name= serializers.ReadOnlyField(source='role.get_name')
     class Meta:
         model = MemberProfile
         fields = "__all__"

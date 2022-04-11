@@ -51,7 +51,7 @@ class MemberProfileView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-'''            Members of All Members      '''
+'''             All Members      '''
 class MemberView(APIView):
     serializer_class = MemberSerializer
     permission_classes = [AllowAny]
@@ -72,6 +72,12 @@ class MemberUpdateView(APIView):
         except Member.DoesNotExist:
             raise Http404
 
+    def get_objects(self, pk):  # Query a member of a given Id
+        try:
+            return MemberProfile.objects.get(user=pk)
+        except MemberProfile.DoesNotExist:
+            raise Http404
+
     def put(self, request, *args, **kwargs):
         member_key = self.get_object(self.kwargs.get('pk_member', ''))
         serializer = self.serializer_class(member_key, data=request.data)
@@ -86,4 +92,11 @@ class MemberUpdateView(APIView):
         member = self.get_object(self.kwargs.get('pk_member', ''))
         member = MemberSerializer(member).data
 
-        return Response(member)
+        # PROFILE
+        memberprofile = self.get_objects(self.kwargs.get('pk_member', ''))
+        memberprofile = MemberProfileSerializer(memberprofile).data
+        memberprofile.pop('id')
+        response = dict(member)
+        response.update(dict(memberprofile))
+
+        return Response(response)

@@ -30,6 +30,12 @@ class SupervisorUpdateView(APIView):
             return Supervisor.objects.get(pk=pk)
         except Supervisor.DoesNotExist:
             raise Http404
+    
+    def get_objects(self, pk):
+        try:
+            return SupervisorProfile.objects.get(user=pk)
+        except SupervisorProfile.DoesNotExist:
+            raise Http404
 
     def put(self, request, *args, **kwargs):
         supervisor_key = self.get_object(self.kwargs.get('pk_supervisor', ''))
@@ -43,8 +49,17 @@ class SupervisorUpdateView(APIView):
 
     def get(self, request, *args, **kwargs):
         supervisor = self.get_object(self.kwargs.get('pk_supervisor', ''))
-        serializer = SupervisorSerializer(supervisor)
-        return Response(serializer.data)
+        supervisor = SupervisorSerializer(supervisor).data
+        # profile
+        profile = self.get_objects(self.kwargs.get('pk_supervisor', ''))
+        profile = SupervisorProfileSerializer(profile).data
+
+        serializer = {}
+        serializer.update(supervisor)
+        serializer.update(profile)
+        return Response(serializer)
+
+
 
     def delete(self, request, pk, format=None):
         supervisor = self.get_object(pk)

@@ -10,5 +10,4 @@ urlpatterns = [
     #supervisor Profile
     path('<int:pk_supervisor>/profile/', SupervisorProfileView.as_view(), name='supervisors profile'),
 
-
     ]

@@ -5,71 +5,9 @@ from club.serializer import *
 from django.http import Http404
 from rest_framework.response import Response
 from club.models import *
+from lookup.serializer import LocationLookupSerializer
 from member.models import Member
 from member.serializer import MemberSerializer
-
-'''            Supevisor Zone         '''
-class SupervisorView(APIView):
-    serializer_class = SupervisorSerializer
-    permission_classes = [AllowAny]
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        valid = serializer.is_valid(raise_exception=True)
-        if valid:
-            status_code = status.HTTP_201_CREATED
-            serializer.save()
-            return Response(serializer.data, status=status_code)
-    def get(self, request, format=None):
-        supervisor = Supervisor.objects.all()
-        serializer = SupervisorSerializer(supervisor, many=True)
-        return Response(serializer.data)
-   
-#Retrieve, update or delete a program instance. 
-class SupervisorUpdateView(APIView):
-    serializer_class = SupervisorSerializer
-    permission_classes = [AllowAny]
-    def get_object(self, pk):
-        try:
-            return Supervisor.objects.get(pk=pk)
-        except Supervisor.DoesNotExist:
-            raise Http404
-
-    def put(self, request, *args, **kwargs):
-        supervisor_key = self.get_object(self.kwargs.get('pk_supervisor', ''))
-        serializer = self.serializer_class(supervisor_key, data=request.data)
-        valid = serializer.is_valid(raise_exception=True)
-
-        if valid:
-            status_code = status.HTTP_201_CREATED
-            serializer.save()
-            return Response(serializer.data, status=status_code)
-
-    def get(self, request, *args, **kwargs):
-        supervisor = self.get_object(self.kwargs.get('pk_supervisor', ''))
-        serializer = SupervisorSerializer(supervisor)
-        return Response(serializer.data)
-
-    def delete(self, request, pk, format=None):
-        supervisor = self.get_object(pk)
-        supervisor.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-'''            ClubSupervisor Zone           '''
-class ClubSupervisorView(APIView):
-    serializer_class = SupervisorSerializer
-    permission_classes = [AllowAny]
-
-    def get_object(self, pk):
-        try:
-            return Supervisor.objects.filter(club__id = pk)
-        except Supervisor.DoesNotExist:
-            raise Http404
-
-   
-    def get(self, request,*args, **kwargs):
-        supervisor = self.get_object(self.kwargs.get('pk_club', ''))
-        serializer = SupervisorSerializer(supervisor, many=True)
-        return Response(serializer.data)
 
 '''            Club Zone         '''
 class ClubView(APIView):
@@ -97,6 +35,12 @@ class ClubUpdateView(APIView):
             return Club.objects.get(pk=pk)
         except Club.DoesNotExist:
             raise Http404
+    def get_objects(self, pk):
+        try:
+            # healthfacility = HealthFacilityLookup.objects.get(club=pk)
+            return LocationLookup.objects.get(healthfacilitylookup__club=pk)
+        except LocationLookup.DoesNotExist:
+            raise Http404
 
     def put(self, request, *args, **kwargs):
         club_key = self.get_object(self.kwargs.get('pk_club', ''))
@@ -110,8 +54,16 @@ class ClubUpdateView(APIView):
 
     def get(self, request, *args, **kwargs):
         club = self.get_object(self.kwargs.get('pk_club', ''))
-        serializer = ClubSerializer(club)
-        return Response(serializer.data)
+        club = ClubSerializer(club).data
+
+        # Location
+        location = self.get_objects(self.kwargs.get('pk_club', ''))
+        location = LocationLookupSerializer(location).data
+        
+        club_location = {}
+        club_location.update(club)
+        club_location.update(location)
+        return Response(club_location)
 
     def delete(self, request, pk, format=None):
         club = self.get_object(pk)
@@ -134,3 +86,16 @@ class ClubMemberView(APIView):
         member = self.get_object(self.kwargs.get('pk_club', ''))
         member = MemberSerializer(member, many = True).data        
         return Response(member,200)
+
+
+'''            CSO Zone         '''
+class CSOView(APIView):
+    serializer_class = MemberSerializer  
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        cso = CSO.objects.all()
+        serializer = CSOSerializer(cso, many=True)
+        return Response(serializer.data)
+
+    

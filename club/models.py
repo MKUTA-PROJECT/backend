@@ -1,5 +1,5 @@
 from django.db import models
-from lookup.models import LocationLookup
+from lookup.models import HealthFacilityLookup, LocationLookup
 
 from supervisor.models import Supervisor
 
@@ -12,12 +12,12 @@ class Club(models.Model):
     phone = models.CharField(max_length=30, blank=False, null=True)
     email = models.EmailField(max_length=30, blank=False, null=True)
     health_facility = models.ForeignKey(
-        LocationLookup, on_delete=models.CASCADE)
+        HealthFacilityLookup, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(
         Supervisor, on_delete=models.SET_NULL, null=True, related_name="club")
     is_under_cso = models.BooleanField(default=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.name
     def get_name(self):
         return self.name

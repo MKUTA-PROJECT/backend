@@ -13,6 +13,7 @@ class LocationLookup(models.Model):
     region = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     subdistrict = models.CharField(max_length=100)
+    ward = models.CharField(max_length=100,null=True)
     street_or_village = models.CharField(max_length=100)
 
     def __str__(self):
@@ -24,6 +25,8 @@ class StaffRoleLookup(models.Model):
         max_length=50, blank=False, verbose_name="Position")
 
     def __str__(self):
+        return self.name
+    def get_name(self):
         return self.name
 
 class MemberRoleLookup(models.Model):
@@ -41,6 +44,8 @@ class HealthFacilityLookup(models.Model):
     location = models.ForeignKey(LocationLookup, on_delete=models.CASCADE)
 
     def __str__(self):
+        return self.name
+    def get_name(self):
         return self.name
 
 

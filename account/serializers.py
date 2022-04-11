@@ -53,6 +53,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only= True)
     password = serializers.CharField(
         max_length=68, min_length=6, write_only=True)
 
@@ -63,7 +64,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['email','phone', 'roles', 'password', 'first_name', 'last_name','middle_name','sex']
+        fields = ['email','phone', 'roles', 'password', 'first_name', 'last_name','middle_name','sex','id']
 
     def validate(self, attrs):
         email = attrs.get('email', '')

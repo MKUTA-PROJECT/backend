@@ -3,6 +3,7 @@ from rest_framework import serializers
 from staff.models import *
 
 class StaffProfileSerializer(serializers.ModelSerializer):
+    role_name= serializers.ReadOnlyField(source='role.get_name')
     class Meta:
         model = StaffProfile
         fields = "__all__"
@@ -12,7 +13,7 @@ class StaffProfileSerializer(serializers.ModelSerializer):
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','roles',]
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','phone','sex','date_joined']
 
     def create(self, validated_data):
         if "password" in validated_data:

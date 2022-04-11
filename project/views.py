@@ -26,7 +26,7 @@ class ProjectView(APIView):
             return Response(serializer.data, status=status_code)
 
     def get(self, request, format=None):
-        project = project.objects.all()
+        project = Project.objects.all()
         serializer = ProjectSerializer(project, many=True)
         return Response(serializer.data)
 
