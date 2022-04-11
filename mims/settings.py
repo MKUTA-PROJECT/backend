@@ -165,13 +165,13 @@ REST_FRAMEWORK = {
 
 # Configure the cors headers permissions
 # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "https://mkuta.herokuapp.com",
-    'https://mkuta-front.herokuapp.com',
-    'http://localhost:4200',
-]
-
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "https://mkuta.herokuapp.com",
+#     'https://mkuta-front.herokuapp.com',
+#     'http://localhost:4200',
+# ]
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Configure the Simple JWT settings
 SIMPLE_JWT = {
