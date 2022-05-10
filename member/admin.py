@@ -3,3 +3,4 @@ from member.models import *
 
 # Register your models here.
 admin.site.register(MemberProfile)
+admin.site.register(Member)

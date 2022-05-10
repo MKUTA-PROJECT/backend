@@ -27,7 +27,7 @@ SECRET_KEY = '$&s5(vrx#^)huviqqok_@=+(z_99%4n(-vsipg24(*%lhyl**$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mkuta.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['mkuta.herokuapp.com', '127.0.0.1','mkuta-front.herokuapp.com']
 
 
 # Application definition
@@ -165,13 +165,13 @@ REST_FRAMEWORK = {
 
 # Configure the cors headers permissions
 # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "https://mkuta.herokuapp.com",
-#     'https://mkuta-front.herokuapp.com',
-#     'http://localhost:4200',
-# ]
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://mkuta.herokuapp.com",
+    'https://mkuta-front.herokuapp.com',
+    'http://localhost:4200',
+]
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # Configure the Simple JWT settings
 SIMPLE_JWT = {

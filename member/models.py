@@ -61,7 +61,7 @@ class MemberProfile(models.Model):
 class MemberContribution(models.Model):
     member = models.ForeignKey(
         Member, on_delete=models.CASCADE, null=False, blank=False, related_name="member")
-    amouunt = models.FloatField()
+    amount = models.FloatField()
     date_paid = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

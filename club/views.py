@@ -71,6 +71,7 @@ class ClubUpdateView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
 '''            Members of specific club Zone         '''
 class ClubMemberView(APIView):
     serializer_class = MemberSerializer  
@@ -85,6 +86,47 @@ class ClubMemberView(APIView):
     def get(self, request, *args, **kwargs):
         member = self.get_object(self.kwargs.get('pk_club', ''))
         member = MemberSerializer(member, many = True).data        
+        return Response(member,200)
+
+
+'''            Club Leaders         '''
+class ClubLeaderView(APIView):
+    serializer_class = MemberSerializer  
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):  # Queryclub leaders
+        try:
+            # Chairman
+            chair = Member.objects.filter(memberProfile__club_id = pk, memberProfile__role__value = 1 )
+            # Ass Chairman
+            asschair = Member.objects.filter(memberProfile__club_id = pk, memberProfile__role__value = 2 )
+            # Secretary
+            secr = Member.objects.filter(memberProfile__club_id = pk, memberProfile__role__value = 3 )
+            # Ass Secretary
+            asssecr = Member.objects.filter(memberProfile__club_id = pk, memberProfile__role__value = 4 )
+            # Treasurer
+            treasurer = Member.objects.filter(memberProfile__club_id = pk, memberProfile__role__value = 5 )
+
+            response = {}
+
+            if chair:
+                response.update({'chairman': f'{chair[0].first_name} {chair[0].last_name}'})
+            if asschair:
+                response.update({'ass_chairman': f'{asschair[0].first_name} {asschair[0].last_name}'})
+            if secr:
+                response.update({'secretary': f'{secr[0].first_name} {secr[0].last_name}'})
+            if asssecr:
+                response.update({'ass_secretary': f'{asssecr[0].first_name} {asssecr[0].last_name}'})
+            if treasurer:
+                response.update({'treasurer': f'{treasurer[0].first_name} {treasurer[0].last_name}'})
+            return response
+
+        except Member.DoesNotExist:
+            pass
+            
+
+    def get(self, request, *args, **kwargs):
+        member = self.get_object(self.kwargs.get('pk_club', ''))
         return Response(member,200)
 
 

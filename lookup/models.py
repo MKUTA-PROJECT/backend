@@ -28,10 +28,27 @@ class StaffRoleLookup(models.Model):
         return self.name
     def get_name(self):
         return self.name
-
+ 
 class MemberRoleLookup(models.Model):
-    name = models.CharField(
-        max_length=50, blank=False, verbose_name="Position")
+    # STATUS choices
+    CHAIRMAN = 1
+    ASS_CHAIRMAN = 2
+    SECRETARY = 3
+    ASS_SECRETARY = 4
+    TREASURER = 5
+    MEMBER = 6
+
+    STATUS_CHOICES = (
+        (CHAIRMAN, 'CHAIRMAN'),
+        (ASS_CHAIRMAN, 'ASSISTANT CHAIRMAN'),
+        (SECRETARY, 'SECRETARY'),
+        (ASS_SECRETARY, 'ASSISTANT SECRETARY'),
+        (TREASURER, 'TREASURER'),
+        (MEMBER, 'MEMBER'),
+    )
+    value= models.PositiveSmallIntegerField(
+        choices=STATUS_CHOICES, blank=True, null=True, default=1)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

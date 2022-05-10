@@ -11,7 +11,7 @@ from account.models import CustomUser
 # Create your views here.
 
 
-'''            Create, View, Update Staff Profile        '''
+'''            Member Profile        '''
 class MemberProfileView(APIView):
     serializer_class = MemberProfileSerializer
     permission_classes = [AllowAny]
@@ -100,3 +100,75 @@ class MemberUpdateView(APIView):
         response.update(dict(memberprofile))
 
         return Response(response)
+
+
+
+'''   Member Contributions    '''
+
+class MemberContributionView(APIView):
+    serializer_class = MemberContributionSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        valid = serializer.is_valid(raise_exception=True)
+        if valid:
+            status_code = status.HTTP_201_CREATED
+            serializer.save()
+            return Response(serializer.data, status=status_code)
+
+    def get(self, request, format=None):
+        project = MemberContribution.objects.all()
+        serializer = MemberContributionSerializer(project, many=True)
+        return Response(serializer.data)
+
+# Retrieve, update or delete a program instance.
+
+
+class MemberContributionAllView(APIView):
+    serializer_class = MemberContributionSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):
+        try:
+            return MemberContribution.objects.filter(member=pk).order_by('-date_paid')
+        except MemberContribution.DoesNotExist:
+            raise Http404
+
+
+    def get(self, request, *args, **kwargs):
+        contribution = self.get_object(self.kwargs.get('pk_member', ''))
+        serializer = MemberContributionSerializer(contribution, many=True)
+        return Response(serializer.data)
+
+
+class MemberContributionUpdateView(APIView):
+    serializer_class = MemberContributionSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):
+        try:
+            return MemberContribution.objects.get(member=pk)
+        except MemberContribution.DoesNotExist:
+            raise Http404
+
+    def put(self, request, *args, **kwargs):
+        contribution_key = self.get_object(self.kwargs.get('pk_member', ''))
+        serializer = self.serializer_class(contribution_key, data=request.data)
+        valid = serializer.is_valid(raise_exception=True)
+
+        if valid:
+            status_code = status.HTTP_201_CREATED
+            serializer.save()
+            return Response(serializer.data, status=status_code)
+
+    def get(self, request, *args, **kwargs):
+        contribution = self.get_object(self.kwargs.get('pk_member', ''))
+        serializer = MemberContributionSerializer(contribution)
+        return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        contribution = self.get_object(pk)
+        contribution.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+

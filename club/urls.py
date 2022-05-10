@@ -9,6 +9,7 @@ urlpatterns = [
 
     #members
     path('<int:pk_club>/member/', ClubMemberView.as_view(), name = 'members' ),
+    path('<int:pk_club>/leader/', ClubLeaderView.as_view(), name = 'Leaders' ),
 
     # CSO
     path('cso/', CSOView.as_view(), name = 'cso' )    
