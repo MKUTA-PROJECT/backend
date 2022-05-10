@@ -166,6 +166,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://mkuta.herokuapp.com",
     'https://mkuta-front.herokuapp.com',
     'http://167.71.67.22:8000',
+    'http://167.71.67.22',
+    'http://localhost:4200'
 ]
 # CORS_ORIGIN_ALLOW_ALL = True
 
