@@ -27,7 +27,7 @@ SECRET_KEY = '$&s5(vrx#^)huviqqok_@=+(z_99%4n(-vsipg24(*%lhyl**$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['167.71.67.22', '127.0.0.1','mkuta-front.herokuapp.com']
+ALLOWED_HOSTS = ['146.190.239.212', '127.0.0.1']
 
 
 
@@ -165,8 +165,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://mkuta.herokuapp.com",
     'https://mkuta-front.herokuapp.com',
-    'http://167.71.67.22:8000',
-    'http://167.71.67.22',
+    'http://146.190.239.212:8000',
+    'http://146.190.239.212',
     'http://localhost:4200'
 ]
 # CORS_ORIGIN_ALLOW_ALL = True
